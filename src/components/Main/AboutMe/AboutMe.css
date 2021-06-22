@@ -1,0 +1,150 @@
+.about-me {
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  gap: 270px;
+
+  width: 100%;
+  max-width: 1140px;
+
+  color: #fff;
+}
+
+.about-me__desc {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  padding: 0;
+  margin: 66px 0 0;
+
+  width: 100%;
+}
+
+.about-me__title {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 1.25;
+
+  margin: 0;
+}
+
+.about-me__subtitle {
+  font-style: normal;
+  font-weight: medium;
+  font-size: 18px;
+  line-height: 1.25;
+
+  margin: 18px 0 0;
+}
+
+.about-me__text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.57;
+
+  margin: 26px 0 0;
+}
+
+.about-me__nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 20px;
+
+  padding: 0;
+  margin: 99px 0 0;
+}
+
+.about-me__link {
+  font-style: normal;
+  font-weight: medium;
+  font-size: 14px;
+  line-height: 1.25;
+
+  color: #fff;
+
+  text-decoration: none;
+}
+
+.about-me__photo {
+  width: 270px;
+  height: 327px;
+
+  object-fit: cover;
+
+  margin: 66px 0 0;
+
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .about-me {
+    gap: 49px;
+    max-width: 668px;
+  }
+  
+  .about-me__subtitle {
+    font-size: 12px;
+     
+    margin: 16px 0 0;
+  }
+  
+  .about-me__text {
+    margin: 20px 0 0;
+  }
+  
+  .about-me__nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 20px;
+  
+    padding: 0;
+    margin: 87px 0 0;
+  }
+  
+  .about-me__photo {
+    width: 255px;
+    height: 307px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .about-me {
+    display: flex;
+    flex-direction: column;
+    
+    max-width: 292px;
+  }
+
+  .about-me__title {
+    font-size: 30px;
+  }
+  
+  .about-me__subtitle {
+    font-size: 11px;
+     
+    margin: 16px 0 0;
+  }
+  
+  .about-me__text {
+    margin: 11px 0 0;
+  }
+  
+  .about-me__nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 20px;
+  
+    padding: 0;
+    margin: 40px 0 0;
+  }
+  
+  .about-me__photo {
+    width: 100%;
+    max-width: 284px;
+  }
+}

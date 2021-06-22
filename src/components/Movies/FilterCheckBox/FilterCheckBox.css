@@ -1,0 +1,59 @@
+.checkbox {
+	display: inline-block;    
+	height: 20px;     
+	position: relative;
+	vertical-align: middle;
+	user-select: none;	
+}
+
+.checkbox__switch {
+	position: relative;	
+	display: inline-block;
+	box-sizing: border-box;			
+	width: 36px;	
+	height: 20px;
+	border: 1px solid #3DDC84;
+	border-radius: 10px;	
+	background: #3DDC84;
+	transition: .2s;
+}
+
+.checkbox__switch:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;	
+	display: inline-block;
+	width: 16px;	
+	height: 16px;
+	border-radius: 50%;
+	background:#fff;
+  transition: .15s;
+}
+
+.checkbox__input {
+	display: block;	
+	width: 0;
+	height: 0;	
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+}
+
+.checkbox__input + .checkbox__switch {
+	background: #fff;
+}
+
+.checkbox__input + .checkbox__switch:before {
+	border: 1px solid #3DDC84;
+}
+
+/* focus сделан для демонстрации того, как работает переключатель */
+.checkbox__input:focus + .checkbox__switch {
+	background: #3DDC84;
+}
+
+.checkbox__input:focus + .checkbox__switch:before {
+	transform:translateX(16px);
+}
+ 

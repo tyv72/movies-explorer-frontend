@@ -1,0 +1,150 @@
+.about-project {
+  display: flex;
+  flex-direction: column;
+  margin: 70px 0 0;
+
+  width: 100%;
+  max-width: 1140px;
+}
+
+.about-project__desc {
+  display: flex;
+  flex-direction: raw;
+  justify-content: space-between;
+
+  color: #fff;
+
+  padding: 0;
+}
+
+.about-project__paragraph {
+  display: flex;
+  flex-direction: column;
+
+  margin-left: 40px;
+}
+
+.about-project__paragraph:first-of-type {
+  margin-left: 0;
+}
+
+.about-project__title {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.about-project__text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.57;
+}
+
+.about-project__spent {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 36px 36px;
+  
+  list-style: none;
+
+  padding: 0;
+}
+
+.about-project__spent-item1 {
+  grid-column: 1;
+  grid-row: 1;
+  height: 100%;
+  background-color: #3DDC84; 
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.25;
+  color: #000;
+}
+
+.about-project__spent-item2 {
+  grid-column: 2;
+  grid-row: 1;
+  height: 100%;
+  background-color: #303030;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.about-project__spent-item {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  font-style: normal;
+  font-weight: medium;
+  font-size: 14px;
+  line-height: 1.25;
+  color: #8b8b8b;
+}
+
+@media screen and (max-width: 768px) {
+  .about-project {
+    margin: 50px 0 0;
+    
+    max-width: 668px;
+  }
+  
+  .about-project__paragraph {
+    margin-left: 30px;
+  }
+  
+  .about-project__paragraph:first-of-type {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .about-project {
+    margin: 70px 0 0;
+    
+    max-width: 284px;
+  }
+  .about-project__desc {
+    flex-direction: column;    
+  }
+
+  .about-project__paragraph {
+    margin: 60px 0 0;
+  }
+  
+  .about-project__title {
+    font-size: 18px;    
+  }
+  
+  .about-project__text {
+    font-size: 11px;
+  }
+  
+  .about-project__spent-item1 {
+    font-size: 11px;
+  }
+  
+  .about-project__spent-item2 {
+    font-size: 11px;
+  }
+  
+  .about-project__spent-item {
+    font-size: 11px;
+  }
+}
