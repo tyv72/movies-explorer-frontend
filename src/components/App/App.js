@@ -12,9 +12,9 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import SavedMovies from '../SavedMovies/SavedMovies';
+import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
-  const loggedIn = false;
   return (
     <div className="App">
       <Switch>
@@ -44,12 +44,15 @@ function App() {
           <SavedMovies />
           <Footer />
         </Route>
-        <Route path='/'>
+        <Route exact path='/'>
           <Header loggedIn={false}>
             <Navigation loggedIn={false}/>
           </Header>
           <Main />
           <Footer />
+        </Route>
+        <Route path='*'>
+          <PageNotFound />
         </Route>
       </Switch>      
     </div>
