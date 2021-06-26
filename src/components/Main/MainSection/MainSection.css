@@ -36,10 +36,12 @@
 
 @media screen and (max-width: 320px) {
   .main-section {
-    padding: 0;
+    padding: 0 0 70px;
   }
 
   .main-section__header {
+    margin: 70px 0 0;
+
     max-width: 284px;
   }
 }

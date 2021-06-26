@@ -81,7 +81,7 @@
 
   .footer__desc {
     font-size: 12px;
-    margin-top: 30px;
+    margin-top: 80px;
   }
   
   .footer__columns {
@@ -91,7 +91,9 @@
 
   .footer__column {
     font-size: 12px;
-    margin-top: 30px;
+    margin: 30px 0;
+
+    color: #8b8b8b;
   }
 
   .footer__menu {

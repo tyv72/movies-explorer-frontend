@@ -114,9 +114,13 @@
 @media screen and (max-width: 320px) {
   .about-me {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     
     max-width: 292px;
+  }
+
+  .about-me__desc {
+    margin: 0;
   }
 
   .about-me__title {
