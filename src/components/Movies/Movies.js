@@ -7,7 +7,7 @@ function Movies () {
   return (
     <div className="movies app-background_color_dark">
       <SearchForm />
-      <MoviesCardList cards={initialCards}/>
+      <MoviesCardList cards={initialCards} saved={false}/>
     </div>    
   );
 }
