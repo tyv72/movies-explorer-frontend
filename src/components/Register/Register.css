@@ -123,13 +123,26 @@
   margin-left: 6px;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 425px) {
   .register {
     font-size: 12px;
   }
 
   .register-form {
+    align-items: center; 
+
     max-width: 260px;
   }
-    
+
+  .register-form__header {
+    text-align: center;
+  }
+
+  .register-form__link-capture {
+    font-size: 12px;
+  }
+
+  .register-form__link {
+    font-size: 12px;
+  }    
 }

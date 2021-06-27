@@ -5,8 +5,10 @@ function Header(props) {
   const background_color = props.loggedIn ? 'dark' : 'blue';
   return (
     <header className={`header app-background_color_${background_color}`}>
-      <img src={headerLogo} alt="Логотип" className="header__logo"/> 
-      {props.children}           
+      <div className="header__content">
+        <img src={headerLogo} alt="Логотип" className="header__logo"/> 
+        {props.children}
+      </div>                 
     </header>
   );
 }

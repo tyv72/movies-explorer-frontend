@@ -16,7 +16,7 @@ function Login(props) {
         <button type="submit" className="login-form__button">Войти</button>
         <span className="login-form__link-capture">
           Ещё не зарегистрированы?
-          <Link className="login-form__link" to='/signup'>Зарегистрироваться</Link>
+          <Link className="login-form__link" to='/signup'>Регистрация</Link>
         </span>      
       </form>
     </section>    

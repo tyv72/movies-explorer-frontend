@@ -1,12 +1,21 @@
 .header {
+  display: flex;
+  justify-content: center;
+
   box-sizing: border-box;
+  padding: 18px 70px;
+
+  width: 100%;  
+}
+
+.header__content {
   display: grid;
   grid-template-columns: 38px calc(100% - 38px);
     
   width: 100%;
-  padding: 18px 70px; 
-
-  border: 0;
+  max-width: 1140px;
+  
+  border: 0;  
 }
 
 .header__logo {
@@ -16,15 +25,17 @@
 
 @media screen and (max-width: 768px) {
   .header {
+    padding: 18px 30px;
+  }
+
+  .header__content {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    
-    padding: 18px 30px; 
+    justify-content: space-between;     
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 425px) {
   .header {
     padding: 18px 14px;  
   }

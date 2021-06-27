@@ -33,7 +33,7 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 425px) {
   .promo {
     padding: 207px 0 246px;
   }

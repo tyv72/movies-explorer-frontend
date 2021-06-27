@@ -3,11 +3,16 @@ import MoviesCard from './../MoviesCard/MoviesCard.js';
 
 function MoviesCardList(props) {
   return (
-    <section className="card-gallery">   
-      {props.cards.map((card, i) => (
-        <MoviesCard key={card._id} card={card}/>
-      ))}                     
-    </section>
+    <>
+      <section className="card-gallery">   
+        {props.cards.map((card, i) => (
+          <MoviesCard key={card._id} card={card}/>
+        ))}                             
+      </section>
+      {props.cards.length > 3 && <button className="card-gallery__more">
+        Ещё
+      </button>}
+    </>    
   );
 }
 

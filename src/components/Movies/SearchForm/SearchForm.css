@@ -1,9 +1,10 @@
 .search-form {
-  padding: 19px;
+  padding: 19px 0;
 
   display: grid;
   grid-template-columns: 4fr 1fr;
 
+  width: 100%;
   max-width: 1140px;
 
   background-color: #222;
@@ -74,7 +75,7 @@
   color: #fff;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 425px) {
   .search-form {
     display: flex;
     flex-direction: column;

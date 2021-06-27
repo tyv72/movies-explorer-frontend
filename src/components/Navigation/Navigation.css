@@ -174,10 +174,6 @@
 }
 
 @media screen and (max-width: 768px) {
-  .menu {
-    display: none;
-  }
-
   .menu-movies {
     display: none;
   }
@@ -205,9 +201,12 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 425px) {
+  .menu {
+    gap: 10px;
+  }
   .menu__item {
-    font-size: 10px;  
+    font-size: 10px;      
   }
 
   .menu-movies__item {

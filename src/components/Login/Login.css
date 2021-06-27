@@ -123,7 +123,7 @@
   margin-left: 6px;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 425px) {
   .login {
     font-size: 12px;
   }
@@ -132,6 +132,10 @@
     align-items: center; 
 
     max-width: 260px;
+  }
+
+  .login-form__header {
+    text-align: center;
   }
 
   .login-form__link-capture {
