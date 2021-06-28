@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import headerLogo from '../../images/logo.png';
+import Logo from '../Logo/Logo.js';
 import './Register.css';
 
 function Register(props) {
   return (
     <section className="register app-background_color_dark">
       <form className="register-form">
-        <img src={headerLogo} alt="Логотип" className="header__logo"/>
+        <Logo />
         <h1 className="register-form__header">Добро пожаловать!</h1>
         <label for="name" className="register-form__label">Имя</label>
         <input type="text" id="name" className="register-form__input" />

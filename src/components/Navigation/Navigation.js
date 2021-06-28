@@ -23,7 +23,7 @@ function Navigation(props) {
           <NavLink className="menu-popup__item" activeClassName="menu-popup__item_active" to='/'>Главная</NavLink>
           <NavLink className="menu-popup__item" activeClassName="menu-popup__item_active" to='/movies'>Фильмы</NavLink>
           <NavLink className="menu-popup__item" activeClassName="menu-popup__item_active" to='/saved-movies'>Сохраненные фильмы</NavLink>
-          <NavLink className="menu-popup__item" to='/profile'>Аккаунт</NavLink>      
+          <NavLink className="menu-popup__item" activeClassName="menu-popup__item_active" to='/profile'>Аккаунт</NavLink>      
         </nav>
       </>}
     </>    

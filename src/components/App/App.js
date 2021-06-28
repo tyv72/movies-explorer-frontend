@@ -25,27 +25,27 @@ function App() {
           <Login />
         </Route>
         <Route path='/profile'>
-          <Header loggedIn={true}>
+          <Header background_color='dark'>
             <Navigation loggedIn={true}/>
           </Header>
           <Profile name="Юлия" email="ttt@yandex.ru"/>
         </Route>
         <Route path='/movies'>
-          <Header loggedIn={true}>
+          <Header background_color='dark'>
             <Navigation loggedIn={true}/>
           </Header>
           <Movies />
           <Footer />
         </Route>
         <Route path='/saved-movies'>
-          <Header loggedIn={true}>
+          <Header background_color='dark'>
             <Navigation loggedIn={true}/>
           </Header>
           <SavedMovies />
           <Footer />
         </Route>
         <Route exact path='/'>
-          <Header loggedIn={false}>
+          <Header background_color='blue'>
             <Navigation loggedIn={false}/>
           </Header>
           <Main />

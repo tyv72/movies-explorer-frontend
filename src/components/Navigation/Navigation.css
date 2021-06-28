@@ -152,23 +152,6 @@
   border-bottom: 1px solid #fff;
 }
 
-.menu-popup::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #2A2C2F;
-  transition: opacity 1s ease;
-  opacity: 0.3;
-  z-index: 10;
-}
-
-.menu-popup:hover::after {
-  opacity: 0.8;  
-}
-
 .menu-button {
   display: none;
 }
