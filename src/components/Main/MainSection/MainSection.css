@@ -30,7 +30,7 @@
 
 @media screen and (max-width: 768px) {
   .main-section {
-    padding: 0 0 30px;
+    padding: 0 30px 30px;
   }
 
   .main-section__header {
