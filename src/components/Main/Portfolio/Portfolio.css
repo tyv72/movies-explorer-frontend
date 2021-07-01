@@ -51,14 +51,14 @@
 }
 
 .portfolio-item__site-link {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 30px;
-  line-height: 1.67;
-
-  color: #fff;
-
-  text-decoration: none;
+  display: block;
+  
+  background-image: url('../../../images/arr-button.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  
+  width: 25px;
 
   margin: 0;
 }
@@ -82,13 +82,14 @@
   .portfolio-item__site-desc {
     font-size: 28px;    
   }
-  
+
   .portfolio-item__site-link {
-    font-size: 28px;
+    width: 23px;    
   }
+  
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 426px) {
   .portfolio {
     max-width: 284px;
   }
@@ -107,8 +108,9 @@
   .portfolio-item__site-desc {
     font-size: 18px;    
   }
-  
+
   .portfolio-item__site-link {
-    font-size: 18px;
+    width: 10px;    
   }
+  
 }

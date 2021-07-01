@@ -10,9 +10,9 @@ function Login(props) {
         <Logo />
         <h1 className="login-form__header">Рады видеть!</h1>
         <label for="email" className="login-form__label">E-mail</label>
-        <input type="text" id="email" className="login-form__input" />
+        <input type="text" id="email" className="login-form__input" required/>
         <label for="password" className="login-form__label">Пароль</label>
-        <input type="password" id="password" className="login-form__input" />
+        <input type="password" id="password" className="login-form__input" required/>
         <button type="submit" className="login-form__button">Войти</button>
         <span className="login-form__link-capture">
           Ещё не зарегистрированы?

@@ -84,7 +84,7 @@
 
   box-sizing: border-box;
   padding: 14px;
-  width: 360px;
+  max-width: 360px;
 }
 
 .card__description {
@@ -136,7 +136,7 @@
   }
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 426px) {
   .card {
     max-width: 300px;
   }

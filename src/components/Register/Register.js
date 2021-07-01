@@ -10,11 +10,11 @@ function Register(props) {
         <Logo />
         <h1 className="register-form__header">Добро пожаловать!</h1>
         <label for="name" className="register-form__label">Имя</label>
-        <input type="text" id="name" className="register-form__input" />
+        <input type="text" id="name" className="register-form__input" required/>
         <label for="email" className="register-form__label">E-mail</label>
-        <input type="text" id="email" className="register-form__input" />
+        <input type="text" id="email" className="register-form__input" required/>
         <label for="password" className="register-form__label">Пароль</label>
-        <input type="password" id="password" className="register-form__input" />
+        <input type="password" id="password" className="register-form__input" required/>
         <span className="register-form__error">Что-то пошло не так...</span>
         <button type="submit" className="register-form__button">Зарегистрироваться</button>
         <span className="register-form__link-capture">

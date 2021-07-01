@@ -18,13 +18,15 @@ function Navigation(props) {
       </nav>}
       {props.loggedIn && <>
         <button className="menu-button" />
-        <nav className="menu-popup">
+        <div className="menu-popup">
           <button className="close-button" />
-          <NavLink className="menu-popup__item" activeClassName="menu-popup__item_active" to='/'>Главная</NavLink>
-          <NavLink className="menu-popup__item" activeClassName="menu-popup__item_active" to='/movies'>Фильмы</NavLink>
-          <NavLink className="menu-popup__item" activeClassName="menu-popup__item_active" to='/saved-movies'>Сохраненные фильмы</NavLink>
+          <nav className="menu-popup__nav">
+            <NavLink className="menu-popup__item" activeClassName="menu-popup__item_active" exact to='/'>Главная</NavLink>
+            <NavLink className="menu-popup__item" activeClassName="menu-popup__item_active" to='/movies'>Фильмы</NavLink>
+            <NavLink className="menu-popup__item" activeClassName="menu-popup__item_active" to='/saved-movies'>Сохраненные фильмы</NavLink>
+          </nav>
           <NavLink className="menu-popup__item" activeClassName="menu-popup__item_active" to='/profile'>Аккаунт</NavLink>      
-        </nav>
+        </div>
       </>}
     </>    
   );

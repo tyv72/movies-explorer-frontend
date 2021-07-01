@@ -111,7 +111,14 @@
   }
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 500px) {
+  .about-me__photo {
+    width: 220px;
+    height: 264px;
+  }
+}
+
+@media screen and (max-width: 426px) {
   .about-me {
     display: flex;
     flex-direction: column-reverse;
