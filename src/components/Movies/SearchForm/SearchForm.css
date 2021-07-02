@@ -1,0 +1,121 @@
+.search-form {
+  padding: 19px 0;
+
+  display: grid;
+  grid-template-columns: 1fr 233px;
+
+  width: 100%;
+  max-width: 1140px;
+
+  background-color: #222;
+  color: #fff;
+
+  border-radius: 9px;
+
+  margin: 70px 0 80px;
+}
+
+.search-form__fieldset {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 19px;
+
+  border: none;
+}
+
+.search-form__fieldset:last-of-type {
+  border-left: 1px solid #8b8b8b;
+  justify-content: center;
+
+  gap: 14px;
+}
+
+.search-form__input {
+  width: 100%;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.22;
+  text-align: left;
+  color: #8b8b8b;
+
+  background-color: #222;
+  background-image: url('../../../images/search-icon.png');
+  background-repeat: no-repeat;
+  background-position: left;
+
+  border: none;
+  padding-left: 44px;
+}
+
+.search-form__button {
+  border: none;
+  
+  background-color: #222;
+  background-image: url('../../../images/find.png');
+  background-repeat: no-repeat;
+  background-position: center;
+    
+  width: 48px;
+  height: 48px;
+}
+
+.search-form__label {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 1.22;
+  text-align: left;
+  color: #fff;
+}
+
+@media screen and (max-width: 640px) {
+  .search-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+
+    width: calc(100% - 20px);
+
+    background-color: #202020;
+
+    margin: 80px 0 50px;
+  }
+
+  .search-form__fieldset {
+    background-color: #222;
+
+    width: calc(100% - 20px); 
+  }
+  
+  .search-form__fieldset:last-of-type {
+    background-color: #202020;
+
+    border: none;
+    padding: 46px 0;
+    border-bottom: 1px solid #8b8b8b;
+
+    width: 100%;
+  }
+
+  .search-form__input {
+    background-color: #222;
+    background-image: none;
+      
+    padding-left: 0;
+  }
+
+  .search-form__label {
+    font-size: 11px;
+  }
+  
+}
+
+@media screen and (max-width: 426px) {
+  .search-form {
+    width: calc(100% - 20px);
+  }
+}
