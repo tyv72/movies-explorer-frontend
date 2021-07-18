@@ -10,7 +10,9 @@ function SearchForm(props) {
     
   function toggleCheck() {
     setChecked(!checked);
-    props.onSearch(!checked, searchWord);
+    if (isValid) {
+      props.onSearch(!checked, searchWord);
+    }    
   }
 
   const handleSearchChange = (e) => {
