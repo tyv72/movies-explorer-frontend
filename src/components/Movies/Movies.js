@@ -1,13 +1,22 @@
 import './Movies.css';
+import React from 'react';
 import MoviesCardList from './MoviesCardList/MoviesCardList.js';
 import SearchForm from '../Movies/SearchForm/SearchForm.js';
-import { initialCards } from './../../utils/constants.js';
+import Preloader from '../Preloader/Preloader.js';
 
-function Movies () {
+function Movies (props) {
   return (
     <div className="movies app-background_color_dark">
-      <SearchForm />
-      <MoviesCardList cards={initialCards} saved={false}/>
+      <SearchForm onSearch={props.onSearch} />
+      {props.isLoading && <Preloader />}
+      {!props.isLoading && !props.isSearchError && 
+        <MoviesCardList 
+          cards={props.movies} 
+          onToggleMovie={props.onToggleMovie} 
+          saved={false}
+        />
+      }
+      {!props.isLoading && props.isSearchError && <span className="movies__error">Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</span>}
     </div>    
   );
 }

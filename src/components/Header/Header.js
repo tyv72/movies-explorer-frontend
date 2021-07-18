@@ -1,4 +1,5 @@
 import Logo from '../Logo/Logo.js';
+import Navigation from '../Navigation/Navigation.js';
 import './Header.css';
 
 function Header(props) {
@@ -7,7 +8,7 @@ function Header(props) {
     <header className={`header app-background_color_${background_color}`}>
       <div className="header__content">
         <Logo />
-        {props.children}
+        <Navigation loggedIn={props.loggedIn}/>
       </div>                 
     </header>
   );

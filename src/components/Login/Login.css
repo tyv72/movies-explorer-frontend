@@ -68,6 +68,10 @@
   border-bottom: 1px solid #4285F4;
 }
 
+.login-form__input_incorrect {
+  color: #ee3465;
+}
+
 .login-form__button {
   font-family: inherit;
   font-style: normal;
@@ -89,6 +93,20 @@
 }
 
 .login-form__error {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 1.2;
+
+  color: #ee3465;
+
+  margin: 6px auto 0;
+
+  width: 100%;
+}
+
+.login-form__result_invalid {
   font-family: inherit;
   font-style: normal;
   font-weight: normal;
