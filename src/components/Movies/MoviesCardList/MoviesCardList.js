@@ -4,14 +4,14 @@ import MoviesCard from './../MoviesCard/MoviesCard.js';
 
 function MoviesCardList(props) {
   const [cards, setCards] = React.useState([]);
-  const [cardsInPortion, setCardsInPortion] = React.useState(3);
+  const [cardsInPortion, setCardsInPortion] = React.useState();
+  const MAX_WIDTH = 1280;
+  const MIDDLE_WIDTH = 768;
   
   React.useEffect(() => {
-    // Порции нарезаем только для основной вкладки
-    if (!props.saved && props.cards) {
-      setCards(props.cards.slice(0, cardsInPortion));
-    }
-    
+    // Устанавливаем количество в новых порциях в зависимости от ширины экрана.
+    // Устанавливаем слушатель изменения ширины.
+    updateDimensions();
     window.addEventListener('resize', updateDimensions);
     return () => {
       window.removeEventListener('resize', updateDimensions);
@@ -19,23 +19,38 @@ function MoviesCardList(props) {
   }, []);
 
   React.useEffect(() => {
-    // Для вкладки "Сохраненные" вытаскиваем весь список
-    if (props.saved) {
-      setCards(props.cards);
-    }   
-  }, [props.cards, props.saved]);
+    // При переключении между вкладками или при изменении общего списка карточек:
+    if (props.saved && props.cards) {
+      // Для вкладки "Сохраненные" вытаскиваем весь список
+      setCards(props.cards.slice());      
+    } else if (props.cards && cards.length === 0) {
+      // Порции нарезаем только для основной вкладки.
+      // Здесь устанавливаем только самую первую порцию, остальные будут получены по Ещё.
+      setCards(props.cards.slice(0, getInitialCardCount()));      
+    }
+  }, [cards.length, props.cards, props.saved]);
 
   function updateDimensions() {
-    if (window.innerWidth >= 1280) {
+    if (window.innerWidth >= MAX_WIDTH) {
       setCardsInPortion(3);
-    } else if (window.innerWidth >= 768) {
+    } else if (window.innerWidth >= MIDDLE_WIDTH) {
       setCardsInPortion(2);
     } else {
-      setCardsInPortion(1);
+      setCardsInPortion(2);
     }
   };
 
-  function getNextPortion() {
+  function getInitialCardCount() {
+    if (window.innerWidth >= MAX_WIDTH) {
+      return 12;
+    } else if (window.innerWidth >= MIDDLE_WIDTH) {
+      return 8;
+    } else {
+      return 5;
+    }
+  };
+
+  function setNextPortion() {
     const delta = 
       props.cards.length - cards.length > cardsInPortion 
       ? cardsInPortion 
@@ -52,7 +67,7 @@ function MoviesCardList(props) {
         ))}                                     
       </section>
       {props.cards && props.cards.length === 0 && <span className="card-gallery__empty">Ничего не найдено...</span>}
-      {props.cards && props.cards.length > cards.length && <button className="card-gallery__more" onClick={getNextPortion}>
+      {props.cards && props.cards.length > cards.length && <button className="card-gallery__more" onClick={setNextPortion}>
         Ещё
       </button>}
     </>    
