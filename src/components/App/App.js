@@ -23,7 +23,7 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [movies, setMovies] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);     
+  const [loading, setLoading] = React.useState(false);
   const [isSearchError, setIsSearchError] = React.useState(false);
   const history = useHistory();
   
@@ -111,7 +111,7 @@ function App() {
 
   function handleUpdateUser (data) {
     const token = localStorage.getItem('jwt');
-    mainApi
+    return mainApi
       .updateUserInfo(data, token)
       .then((user) => {
         setCurrentUser(user.data);
@@ -122,10 +122,41 @@ function App() {
   const handleSearch = (checked, searchWord) => {
     setLoading(true);
     setIsSearchError(false);
-    const token = localStorage.getItem('jwt');
 
-    // При поиске сразу обновляем информацию и о сохраненных фильмах
-    return Promise.all([moviesApi.getAllMovies(), mainApi.getMovies(token)])
+    if (localStorage.getItem('movies')) {
+      const storedMovies = JSON.parse(localStorage.getItem('movies'));
+      // Если поиск уже осуществлялся, то больше по АПИ фильмы не получаем.
+      // Но перед употреблением обновляем атрибуты для сохраненных фильмов
+      let filteredMovies = storedMovies
+        .map((movie) => {
+          // Устанавливаем все атрибуты для сохраненных фильмов
+          const saved = savedMovies.find(savedMovie => savedMovie.movieId == movie.id);
+          if (saved) {
+            movie.saved = true;
+            movie._id = saved._id;
+            movie.owner = saved.owner;
+          } else {
+            movie.saved = false;
+          }
+          
+          return movie;
+        });
+      localStorage.setItem("movies", JSON.stringify(filteredMovies));
+
+      filteredMovies = filteredMovies
+        .filter((movie) => {
+          const includeMovie = checked ? movie.duration <= 40 : true;
+          const containRU = movie.nameRU && movie.nameRU.toLowerCase().includes(searchWord.toLowerCase());
+          const containEN = movie.nameEN && movie.nameEN.toLowerCase().includes(searchWord.toLowerCase());
+          return includeMovie && (containRU || containEN);         
+      });
+      setMovies(filteredMovies);
+      setLoading(false);
+    } else {      
+      const token = localStorage.getItem('jwt');
+
+      // При поиске сразу обновляем информацию и о сохраненных фильмах
+      Promise.all([moviesApi.getAllMovies(), mainApi.getMovies(token)])
       .then(([allMovies, savedMoviesData]) => {    
         // Достаем сохраненные только по текущему пользователю    
         const receivedMovies = savedMoviesData.data
@@ -133,14 +164,8 @@ function App() {
           .map((movie) => Object.assign(movie, {saved: true}));        
     
         if (allMovies) {
-          // Поиск только по названиям фильмов
-          const filteredMovies = allMovies
-            .filter((movie) => {
-              const includeMovie = checked ? movie.duration <= 40 : true;
-              const containRU = movie.nameRU && movie.nameRU.toLowerCase().includes(searchWord.toLowerCase());
-              const containEN = movie.nameEN && movie.nameEN.toLowerCase().includes(searchWord.toLowerCase());
-              return includeMovie && (containRU || containEN);
-            }).map((movie) => {
+          let filteredMovies = allMovies
+            .map((movie) => {
               const newMovie = {
                 country: movie.country,
                 director: movie.director,
@@ -165,8 +190,17 @@ function App() {
               }
               
               return newMovie;
-            });      
+            });
           localStorage.setItem("movies", JSON.stringify(filteredMovies));
+
+          // Поиск только по названиям фильмов
+          filteredMovies = filteredMovies
+            .filter((movie) => {
+              const includeMovie = checked ? movie.duration <= 40 : true;
+              const containRU = movie.nameRU && movie.nameRU.toLowerCase().includes(searchWord.toLowerCase());
+              const containEN = movie.nameEN && movie.nameEN.toLowerCase().includes(searchWord.toLowerCase());
+              return includeMovie && (containRU || containEN);
+            });      
           setMovies(filteredMovies);          
         } else {
           setMovies([]);
@@ -179,6 +213,7 @@ function App() {
         setLoading(false);
         console.log(err);
       });
+    }
   }
 
   // Вызывается при открытии формы с сохраненными фильмами
@@ -202,7 +237,6 @@ function App() {
           return item;
         });
         setMovies(newMovies);
-        localStorage.setItem("movies", JSON.stringify(newMovies));
         // из списка сохраненных фильмов удаляем фильм
         let updatedMovies = savedMovies.slice();
         let movieIdx = updatedMovies.findIndex(item => item._id === movieCard._id);
@@ -224,7 +258,6 @@ function App() {
           return item;
         });
         setMovies(newMovies);
-        localStorage.setItem("movies", JSON.stringify(newMovies));
         // добавляем фильм в список сохраненных
         setSavedMovies([newMovie, ...savedMovies]);
       })

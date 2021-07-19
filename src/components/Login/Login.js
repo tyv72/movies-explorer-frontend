@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import Logo from '../Logo/Logo.js';
 import TextInput from '../TextInput/TextInput.js';
 import SubmitButton from '../SubmitForm/SubmitButton.js';
+import Preloader from '../Preloader/Preloader.js';
 
 import './Login.css';
 
@@ -47,6 +48,9 @@ function Login(props) {
       >
         {({ isSubmitting, errors, values, touched }) => (
           <Form className="login-form">
+            <div className={`login-preloader ${isSubmitting && 'login-preloader_opened'}`}>
+              <Preloader />
+            </div>
             <Logo />
             <h1 className="login-form__header">Рады видеть!</h1>
             <label for="email" className="login-form__label">E-mail</label>

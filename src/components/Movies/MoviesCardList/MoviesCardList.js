@@ -5,6 +5,9 @@ import MoviesCard from './../MoviesCard/MoviesCard.js';
 function MoviesCardList(props) {
   const [cards, setCards] = React.useState([]);
   const [cardsInPortion, setCardsInPortion] = React.useState();
+  // Для того, чтобы отличать новый поиск от кнопки Ещё, чтобы можно было первую порцию 
+  // после выполнения поиска корректно нарезать.
+  const [isNewSearch, setIsNewSearch] = React.useState(true);
   const MAX_WIDTH = 1280;
   const MIDDLE_WIDTH = 768;
   
@@ -23,12 +26,13 @@ function MoviesCardList(props) {
     if (props.saved && props.cards) {
       // Для вкладки "Сохраненные" вытаскиваем весь список
       setCards(props.cards.slice());      
-    } else if (props.cards && cards.length === 0) {
+    } else if (props.cards && isNewSearch) {
       // Порции нарезаем только для основной вкладки.
       // Здесь устанавливаем только самую первую порцию, остальные будут получены по Ещё.
       setCards(props.cards.slice(0, getInitialCardCount()));      
     }
-  }, [cards.length, props.cards, props.saved]);
+    setIsNewSearch(true);
+  }, [props.cards, props.saved]);
 
   function updateDimensions() {
     if (window.innerWidth >= MAX_WIDTH) {
@@ -57,6 +61,7 @@ function MoviesCardList(props) {
       : props.cards.length - cards.length;
 
     setCards(props.cards.slice(0, cards.length + delta));
+    setIsNewSearch(false);
   }
 
   return (
