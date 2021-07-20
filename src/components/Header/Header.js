@@ -1,3 +1,5 @@
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import Logo from '../Logo/Logo.js';
 import Navigation from '../Navigation/Navigation.js';
 import './Header.css';
@@ -14,4 +16,4 @@ function Header(props) {
   );
 }
 
-export default Header;
+export default withRouter(Header);

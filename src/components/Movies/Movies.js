@@ -1,5 +1,7 @@
 import './Movies.css';
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+
 import MoviesCardList from './MoviesCardList/MoviesCardList.js';
 import SearchForm from '../Movies/SearchForm/SearchForm.js';
 import Preloader from '../Preloader/Preloader.js';
@@ -22,4 +24,4 @@ function Movies (props) {
   );
 }
 
-export default Movies;
+export default withRouter(Movies);

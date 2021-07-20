@@ -1,7 +1,7 @@
 import './App.css';
 
 import React from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
 
 import Header from "../Header/Header.js";
 import Main from "../Main/Main.js";
@@ -28,37 +28,99 @@ function App() {
   const history = useHistory();
   
   React.useEffect(() => {
-    handleTokenCheck();  
+    handleTokenCheck();
   }, []);
 
+  // Способ перерисовать компонент, если выяснилось, что 
+  // пользователь авторизован. 
+
+  // Проблема в том, что ProtectedRoute отрисовывается до исполнения хука с проверкой токена,
+  // и как следствие, установка loggedIn в true производится уже после того, как
+  // пользователя редиректнули на /. Обходной путь заключается в запоминании
+  // в истории родоначальной ссылки, которая была в ProtectedRoute, и в случае успешной проверки
+  // токена пользователь редиректится обратно за запушенную в историю ссылку.
   React.useEffect(() => {
     if (loggedIn) {
-      history.push('/movies');
+      history.goBack();
+    } else {
+      history.push('/');
     }
-  }, [loggedIn, history]);
+  }, [loggedIn]);
 
   function handleTokenCheck() {
     const jwt = localStorage.getItem('jwt');
-    if (jwt){      
+    if (jwt){   
       mainApi.checkToken(jwt)
         .then((res) => {
-          if (res){
-            fillState(jwt);                                
+          if (res){  
+            setLoggedIn(true);
+            fillState(jwt);                                          
           }
         })
-        .catch((err) => console.log(err)); 
+        .catch((err) => { 
+          console.log(err) 
+        }); 
     }
   }
 
+  function saveCurrentPath(path) {
+    history.push(path);
+  }
+
+  function filterMovies(storedMovies, checked, searchWord) {
+    return storedMovies
+      .filter((movie) => {
+        const includeMovie = checked ? movie.duration <= 40 : true;
+        const containRU = movie.nameRU && movie.nameRU.toLowerCase().includes(searchWord.toLowerCase());
+        const containEN = movie.nameEN && movie.nameEN.toLowerCase().includes(searchWord.toLowerCase());
+        return includeMovie && (containRU || containEN);         
+      });
+  }
+
   function fillState(token) {
-    mainApi.getUserInfo(token)
-      .then((userData) => {
+    Promise.all([mainApi.getUserInfo(token), mainApi.getMovies(token)])
+      .then(([userData, savedMoviesData]) => { 
         setCurrentUser(userData.data); 
+
+        // Достаем сохраненные только по текущему пользователю
+        const storedSavedMovies = savedMoviesData.data
+          .filter((movie) => movie.owner === userData.data._id)
+          .map((movie) => Object.assign(movie, {saved: true}));
+        setSavedMovies(storedSavedMovies);
+
         // Восстанавливаем из ЛС, если в текущей сессии обновили экран
-        const storedMovies = JSON.parse(localStorage.getItem('movies'));
-        setMovies(storedMovies ? storedMovies : []);
-        setSavedMovies(storedMovies ? storedMovies.filter((movie) => movie.saved) : []);
-        setLoggedIn(true);                                     
+        let storedMovies = JSON.parse(localStorage.getItem('movies'));
+        const storedChecked = 
+          localStorage.getItem('checked') ? 
+          JSON.parse(localStorage.getItem('checked')) : false;
+        const storedSearchWord = 
+          localStorage.getItem('searchWord') ? 
+          localStorage.getItem('searchWord') : "";
+        
+        storedMovies = filterMovies(storedMovies, storedChecked, storedSearchWord);
+
+        if (storedMovies) {
+          storedMovies
+            .map((movie) => {
+              // Устанавливаем все атрибуты для сохраненных фильмов
+              const saved = storedSavedMovies.find(
+                  savedMovie => 
+                  savedMovie.movieId == movie.movieId
+                );
+              if (saved) {
+                movie.saved = true;
+                movie._id = saved._id;
+                movie.owner = saved.owner;
+              } else {
+                movie.saved = false;
+              }
+              
+              return movie;
+            });
+            setMovies(storedMovies);
+        } else {
+          setMovies([]);
+        }            
       })
       .catch((err) => console.log(err));
   }
@@ -78,7 +140,7 @@ function App() {
         } 
         if (res.token) {
           localStorage.setItem('jwt', res.token);
-          fillState(res.token);                
+          setLoggedIn(true);                
         }  
       })
       .catch((err) => {
@@ -95,18 +157,20 @@ function App() {
         } 
         if (res.token) {
           localStorage.setItem('jwt', res.token);
-          fillState(res.token);                
+          setLoggedIn(true);                
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => { 
+        console.log(err) 
+      });
   }
 
   function handleLogout () {
     localStorage.removeItem('jwt');
-    localStorage.removeItem('movies');
     setLoggedIn(false);
     setMovies([]);
     setSavedMovies([]);
+    history.push('/');
   }
 
   function handleUpdateUser (data) {
@@ -122,15 +186,16 @@ function App() {
   const handleSearch = (checked, searchWord) => {
     setLoading(true);
     setIsSearchError(false);
-
-    if (localStorage.getItem('movies')) {
-      const storedMovies = JSON.parse(localStorage.getItem('movies'));
+    let storedMovies = localStorage.getItem('movies');
+    
+    if (storedMovies) {
+      storedMovies = JSON.parse(localStorage.getItem('movies'));
       // Если поиск уже осуществлялся, то больше по АПИ фильмы не получаем.
       // Но перед употреблением обновляем атрибуты для сохраненных фильмов
       let filteredMovies = storedMovies
         .map((movie) => {
           // Устанавливаем все атрибуты для сохраненных фильмов
-          const saved = savedMovies.find(savedMovie => savedMovie.movieId == movie.id);
+          const saved = savedMovies.find(savedMovie => savedMovie.movieId == movie.movieId);
           if (saved) {
             movie.saved = true;
             movie._id = saved._id;
@@ -142,14 +207,10 @@ function App() {
           return movie;
         });
       localStorage.setItem("movies", JSON.stringify(filteredMovies));
+      localStorage.setItem("checked", checked);
+      localStorage.setItem("searchWord", searchWord);
 
-      filteredMovies = filteredMovies
-        .filter((movie) => {
-          const includeMovie = checked ? movie.duration <= 40 : true;
-          const containRU = movie.nameRU && movie.nameRU.toLowerCase().includes(searchWord.toLowerCase());
-          const containEN = movie.nameEN && movie.nameEN.toLowerCase().includes(searchWord.toLowerCase());
-          return includeMovie && (containRU || containEN);         
-      });
+      filteredMovies = filterMovies(filteredMovies, checked, searchWord);        
       setMovies(filteredMovies);
       setLoading(false);
     } else {      
@@ -192,15 +253,11 @@ function App() {
               return newMovie;
             });
           localStorage.setItem("movies", JSON.stringify(filteredMovies));
+          localStorage.setItem("checked", checked);
+          localStorage.setItem("searchWord", searchWord);
 
           // Поиск только по названиям фильмов
-          filteredMovies = filteredMovies
-            .filter((movie) => {
-              const includeMovie = checked ? movie.duration <= 40 : true;
-              const containRU = movie.nameRU && movie.nameRU.toLowerCase().includes(searchWord.toLowerCase());
-              const containEN = movie.nameEN && movie.nameEN.toLowerCase().includes(searchWord.toLowerCase());
-              return includeMovie && (containRU || containEN);
-            });      
+          filteredMovies = filterMovies(filteredMovies, checked, searchWord); 
           setMovies(filteredMovies);          
         } else {
           setMovies([]);
@@ -230,18 +287,16 @@ function App() {
       return mainApi.deleteMovie(movieCard._id, token)
       .then(() => {
         // в общем списке фильмов обновляем признак того, что фильм удален из сохраненных
-        const newMovies = movies.map((item) => {
+        const updatedMovies = [...movies].map((item) => {
           if (item._id && item._id === movieCard._id) {
             item.saved = false;
           } 
           return item;
         });
-        setMovies(newMovies);
-        // из списка сохраненных фильмов удаляем фильм
-        let updatedMovies = savedMovies.slice();
-        let movieIdx = updatedMovies.findIndex(item => item._id === movieCard._id);
-        updatedMovies.splice(movieIdx, 1);
-        setSavedMovies(updatedMovies);
+        setMovies(updatedMovies);
+        
+        let updatedSavedMovies = [...savedMovies].filter(item => item._id !== movieCard._id);
+        setSavedMovies(updatedSavedMovies);
       })
       .catch((err) => console.log(err));
     } else {
@@ -249,15 +304,15 @@ function App() {
       return mainApi.addMovie(movieCard, token)
       .then((newMovie) => {
         // обновляем признак того, что фильм сохранен, в общем списке фильмов
-        const newMovies = movies.map((item) => {
-          if (item.movieId === movieCard.movieId) {
+        const updatedMovies = [...movies].map((item) => {
+          if (item.movieId == newMovie.data.movieId) {
             item.saved = true;
             item._id = newMovie.data._id;
             item.owner = newMovie.data.owner;
           } 
           return item;
         });
-        setMovies(newMovies);
+        setMovies(updatedMovies);
         // добавляем фильм в список сохраненных
         setSavedMovies([newMovie, ...savedMovies]);
       })
@@ -270,16 +325,16 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}> 
         <Switch>
           <Route path='/signup'>
-            <Register onRegister={handleRegister}/>
+            {!loggedIn ? <Register onRegister={handleRegister} /> : <Redirect to="./" /> }
           </Route>
           <Route path='/signin'>
-            <Login handleLogin={handleLogin} />
+            {!loggedIn ? <Login handleLogin={handleLogin} /> : <Redirect to="./" /> }            
           </Route>
-          <ProtectedRoute path='/profile' loggedIn={loggedIn}>
+          <ProtectedRoute path='/profile' loggedIn={loggedIn} savePath={saveCurrentPath}>
             <Header background_color='dark' loggedIn={loggedIn} />
             <Profile onUpdateUser={handleUpdateUser} handleLogout={handleLogout}/>
           </ProtectedRoute>
-          <ProtectedRoute path='/movies' loggedIn={loggedIn}>
+          <ProtectedRoute path='/movies' loggedIn={loggedIn} savePath={saveCurrentPath}>
             <Header background_color='dark' loggedIn={loggedIn}/>            
             <Movies 
               movies={movies}
@@ -290,9 +345,10 @@ function App() {
               />
             <Footer />
           </ProtectedRoute>
-          <ProtectedRoute path='/saved-movies' loggedIn={loggedIn}>
+          <ProtectedRoute path='/saved-movies' loggedIn={loggedIn} savePath={saveCurrentPath}>
             <Header background_color='dark' loggedIn={loggedIn} />              
             <SavedMovies 
+              movies={savedMovies}
               onOpen={handleOpenSavedMovies}
               onToggleMovie={toggleLikeMovie}
             />

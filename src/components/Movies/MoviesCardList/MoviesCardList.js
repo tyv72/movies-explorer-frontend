@@ -1,6 +1,15 @@
 import React from 'react';
 import './MoviesCardList.css';
 import MoviesCard from './../MoviesCard/MoviesCard.js';
+import {
+  MAX_WIDTH, 
+  MIDDLE_WIDTH, 
+  PORTION_MAX, 
+  PORTION_MIN, 
+  INIT_PORTION_MAX, 
+  INIT_PORTION_MIDDLE, 
+  INIT_PORTION_MIN
+} from '../../../utils/constants.js';
 
 function MoviesCardList(props) {
   const [cards, setCards] = React.useState([]);
@@ -8,8 +17,7 @@ function MoviesCardList(props) {
   // Для того, чтобы отличать новый поиск от кнопки Ещё, чтобы можно было первую порцию 
   // после выполнения поиска корректно нарезать.
   const [isNewSearch, setIsNewSearch] = React.useState(true);
-  const MAX_WIDTH = 1280;
-  const MIDDLE_WIDTH = 768;
+  
   
   React.useEffect(() => {
     // Устанавливаем количество в новых порциях в зависимости от ширины экрана.
@@ -36,21 +44,21 @@ function MoviesCardList(props) {
 
   function updateDimensions() {
     if (window.innerWidth >= MAX_WIDTH) {
-      setCardsInPortion(3);
+      setCardsInPortion(PORTION_MAX);
     } else if (window.innerWidth >= MIDDLE_WIDTH) {
-      setCardsInPortion(2);
+      setCardsInPortion(PORTION_MIN);
     } else {
-      setCardsInPortion(2);
+      setCardsInPortion(PORTION_MIN);
     }
   };
 
   function getInitialCardCount() {
     if (window.innerWidth >= MAX_WIDTH) {
-      return 12;
+      return INIT_PORTION_MAX;
     } else if (window.innerWidth >= MIDDLE_WIDTH) {
-      return 8;
+      return INIT_PORTION_MIDDLE;
     } else {
-      return 5;
+      return INIT_PORTION_MIN;
     }
   };
 

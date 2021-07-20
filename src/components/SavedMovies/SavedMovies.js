@@ -5,15 +5,13 @@ import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList.js';
 import SearchForm from '../Movies/SearchForm/SearchForm.js';
 import Preloader from '../Preloader/Preloader.js';
 import * as mainApi from '../../utils/MainApi.js';
-import CurrentUserContext from '../../contexts/CurrentUserContext.js';
 
 function SavedMovies (props) {
   const [savedMovies, setSavedMovies] = React.useState();
   const [filteredMovies, setFilteredMovies] = React.useState();
   const [isSearchError, setIsSearchError] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-  const currentUser = React.useContext(CurrentUserContext);
-  
+   
   // Данный хук будет выполнен только при монтировании компонента.
   // Затем вся фильтрация будет выполняться только по savedMovies.
   // Здесь выполняем новый поиск в БД, т.к. на эту вкладку можно зайти
@@ -23,16 +21,15 @@ function SavedMovies (props) {
 
     const token = localStorage.getItem('jwt');
 
-    mainApi.getMovies(token)
-    .then((movies) => {
-      const receivedMovies = movies.data
-        .filter((movie) => movie.owner === currentUser._id)
-        .map((movie) => Object.assign(movie, {saved: true}));
-      setSavedMovies(receivedMovies);
-      setFilteredMovies(receivedMovies); 
-      // Таким образом обновляем список сохраненных фильмов для основной формы.
-      props.onOpen(receivedMovies);   
-      setIsLoading(false);                                  
+    Promise.all([mainApi.getUserInfo(token), mainApi.getMovies(token)])
+      .then(([userData, savedMoviesData]) => { 
+        // Достаем сохраненные только по текущему пользователю
+        const storedSavedMovies = savedMoviesData.data
+          .filter((movie) => movie.owner === userData.data._id)
+          .map((movie) => Object.assign(movie, {saved: true}));
+        setSavedMovies(storedSavedMovies);       
+        setFilteredMovies(storedSavedMovies);         
+        setIsLoading(false);                                  
     })
     .catch((err) => {
       setIsSearchError(true);
@@ -57,6 +54,8 @@ function SavedMovies (props) {
     props.onToggleMovie(card).then((res) => {
       const newFilteredMovies = filteredMovies.filter((movie) => movie._id !== card._id);
       setFilteredMovies(newFilteredMovies);
+      const newSavedMovies = savedMovies.filter((movie) => movie._id !== card._id);
+      setSavedMovies(newSavedMovies);
     });    
   }
 

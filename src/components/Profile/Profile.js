@@ -34,10 +34,19 @@ function Profile(props) {
     setOkResult(false);
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    setIsSubmitting(true);
+  function changedValues() {
+    return (currentUser.name !== name) || (currentUser.email !== email);
+  }
 
+  function disabled() {
+    return isSubmitting || !isValid || !changedValues();
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();    
+    if (disabled()) return;
+
+    setIsSubmitting(true);
     props.onUpdateUser({
       name,
       email,
@@ -93,7 +102,7 @@ function Profile(props) {
           errorKey && errors[errorKey] !== "" && <span key={errorKey} className="profile-form__error">{"Ошибка в поле " + errorKey + "! " + errors[errorKey]}</span>
         ))}
         {okResult && <span className="profile-form__info">Данные успешно сохранены!</span>}
-        {isEditEnabled && <button type="submit" className="profile-form__button" enabled={ isSubmitting | !isValid | Object.keys(errors).length > 0 ? "false" : "true"}>Сохранить</button>}
+        {isEditEnabled && <button type="submit" className="profile-form__button" enabled={ disabled() ? "false" : "true"}>Сохранить</button>}
         {!isEditEnabled && <button type="button" className="profile-form__button" onClick={handleChangeMode}>Редактировать</button>}
         <Link className="profile-form__link" to='/movies' onClick={props.handleLogout}>Выйти из аккаунта</Link>              
       </form>
