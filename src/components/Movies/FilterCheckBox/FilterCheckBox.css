@@ -32,7 +32,16 @@
 }
 
 .checkbox__input {
-	display: block;	
+  display: block;	
+	width: 0;
+	height: 0;	
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+}
+
+.checkbox__input_checked {
+  display: block;	
 	width: 0;
 	height: 0;	
 	position: absolute;
@@ -48,12 +57,10 @@
 	border: 1px solid #3DDC84;
 }
 
-/* focus сделан для демонстрации того, как работает переключатель */
-.checkbox__input:focus + .checkbox__switch {
+.checkbox__input_checked + .checkbox__switch {
 	background: #3DDC84;
 }
 
-.checkbox__input:focus + .checkbox__switch:before {
+.checkbox__input_checked + .checkbox__switch:before {
 	transform:translateX(16px);
-}
- 
+} 

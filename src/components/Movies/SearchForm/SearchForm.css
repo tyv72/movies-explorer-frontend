@@ -71,6 +71,22 @@
   color: #fff;
 }
 
+.search-form__input-error {
+  width: 100%;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.22;
+  text-align: left;
+  color: #ee3465;
+
+  background-color: #222;
+  
+  border: none;
+  padding-left: 44px;  
+}
+
 @media screen and (max-width: 640px) {
   .search-form {
     display: flex;
@@ -109,6 +125,10 @@
   }
 
   .search-form__label {
+    font-size: 11px;
+  }
+
+  .search-form__input-error {
     font-size: 11px;
   }
   

@@ -68,6 +68,10 @@
   border-bottom: 1px solid #4285F4;
 }
 
+.login-form__input_incorrect {
+  color: #ee3465;
+}
+
 .login-form__button {
   font-family: inherit;
   font-style: normal;
@@ -102,6 +106,20 @@
   width: 100%;
 }
 
+.login-form__result_invalid {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 1.2;
+
+  color: #ee3465;
+
+  margin: 6px auto 0;
+
+  width: 100%;
+}
+
 .login-form__link-capture {
   font-family: inherit;
   font-style: normal;
@@ -121,6 +139,30 @@
   color: #4285F4;
 
   margin-left: 6px;
+}
+
+.login-preloader {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;  
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: 5;   
+  
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 1s, opacity 1s ease;
+}
+
+.login-preloader_opened {
+  visibility: visible;
+  opacity: 1;
 }
 
 @media screen and (max-width: 426px) {

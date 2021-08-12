@@ -1,0 +1,41 @@
+.form-input {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
+
+  color: #ffffff;
+
+  background-color: #202020;
+  
+  border: none;
+  border-bottom: 1px solid #CCCCCC;
+  padding-bottom: 12px;
+  margin: 5px auto 0;
+
+  width: 100%;
+}
+
+.form-input:focus {
+  outline: none;
+  border-bottom: 1px solid #4285F4;
+}
+
+.form-input_incorrect {
+  color: #ee3465;
+}
+
+.form-error {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 1.2;
+
+  color: #ee3465;
+
+  margin: 6px auto 0;
+
+  width: 100%;
+}

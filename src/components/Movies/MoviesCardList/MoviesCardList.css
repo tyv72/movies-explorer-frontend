@@ -29,6 +29,15 @@
   line-height: 1.21;
 }
 
+.card-gallery__empty {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.21;
+
+  color: #fff;
+}
+
 @media screen and (max-width: 768px) {
   .card-gallery {
     grid-template-columns: repeat(auto-fill, 339px);
